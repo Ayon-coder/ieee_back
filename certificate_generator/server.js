@@ -200,19 +200,20 @@ app.get('/events/:eventId/template', async (req, res) => {
     const template = templatesSnap.docs[0].data();
     console.log(`✓ Template found\n`);
 
+    const config = template.config || template;
     res.json({
       template: template,
       styling: {
-        namePosition: template.namePosition || template.config?.position || { x: 400, y: 300 },
-        width: template.width || 800,
-        height: template.height || 600,
-        fontColor: template.fontColor || '#000000',
-        fontFamily: template.fontFamily || 'Arial',
-        textSize: template.textSize || 36,
-        fontStyle: template.fontStyle || 'normal',
-        fontWeight: template.fontWeight || 'normal',
+        namePosition: template.namePosition || config.namePosition || { x: 400, y: 300 },
+        width: template.width || config.width || 800,
+        height: template.height || config.height || 600,
+        fontColor: config.fontColor || '#000000',
+        fontFamily: config.fontFamily || 'Arial',
+        textSize: config.textSize || 36,
+        fontStyle: config.fontStyle || 'normal',
+        fontWeight: config.fontWeight || 'normal',
         svgUrl: template.svgUrl,
-        certificate_pos: template.certificate_pos || template.config?.position
+        certificate_pos: template.certificate_pos || config.certificate_pos
       }
     });
 
@@ -246,7 +247,7 @@ app.get('/events/:eventId/participants', async (req, res) => {
     
     const students = [];
     studentSnapshot.forEach(doc => {
-      students.push(doc.data());
+      students.push({ id: doc.id, ...doc.data() });
     });
 
     console.log(`✓ Found ${students.length} student(s)\n`);

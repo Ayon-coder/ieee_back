@@ -1,56 +1,40 @@
-# IEEE Backend Server
+# IEEE Backend
 
-Firebase-powered backend for IEEE Frontend application.
+This directory holds both backend services for the IEEE website.
 
-## Quick Start
+## Structure
+
+```
+ieee_backend/
+├── certificate_generator/   Node.js / Express — events, participants, certificate search
+│   ├── server.js
+│   ├── package.json
+│   └── .env
+└── chatbot_backend/         Python / Flask — Vai AI chatbot (Deep Dive + Student Branch)
+    ├── app.py
+    ├── requirements.txt
+    └── .env
+```
+
+## Running locally
+
+### Certificate generator backend
 
 ```bash
-# Install dependencies
+cd certificate_generator
 npm install
-
-# Start server
-npm run dev
+npm start          # http://localhost:5001
 ```
 
-Server runs on `http://localhost:5001`
+### Chatbot backend
 
-## API Endpoints
-
-### Health Check
+```bash
+cd chatbot_backend
+python -m venv venv
+source venv/Scripts/activate    # Windows bash
+pip install -r requirements.txt
+python app.py                    # http://localhost:5000
 ```
-GET /health
-```
-Response: `{ status: 'ok', firebase: 'connected', timestamp: '...' }`
 
-### Get All Events
-```
-GET /events
-```
-Response: Array of events with templates and styling
-
-### Get Single Event
-```
-GET /events/:eventId
-```
-Response: Single event object
-
-### Get Event Template
-```
-GET /events/:eventId/template
-```
-Response: Template and styling configuration
-
-## Environment Variables
-
-See `.env` file - Firebase configuration is pre-configured.
-
-## Dependencies
-
-- **express** - Web framework
-- **firebase-admin** - Firebase integration
-- **cors** - Cross-origin support
-- **dotenv** - Environment variables
-
-## Troubleshooting
-
-See [SETUP_GUIDE.md](../SETUP_GUIDE.md) for detailed troubleshooting and setup instructions.
+Both services run independently — the IEEE frontend reads them via the
+`VITE_API_URL` (certificates) and `VITE_CHATBOT_URL` (chatbot) env vars.

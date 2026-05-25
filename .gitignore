@@ -1,10 +1,20 @@
-node_modules/
-.env
-.env.local
-.DS_Store
-*.log
-npm-debug.log*
-dist/
-build/
+# Environment files (each subdir has its own .env — never commit them)
+**/.env
+**/.env.local
+
+# Node
+**/node_modules/
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/venv/
+**/.venv/
+**/chatenv/
+
+# Vercel
+**/.vercel/
+
+# IDE
 .vscode/
 .idea/
